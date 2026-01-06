@@ -1,9 +1,5 @@
 # Projet_AI_forgames
 
-![Preview](/preview.png)
-<br>
-<br>
-
 ## 1. Introduction et objectif du projet
 
 Le projet **Dino Game IA+** est un mini-jeu développé en Python avec la bibliothèque **Pygame**, inspiré du célèbre jeu du dinosaure de Google Chrome. L’objectif principal du projet est d’intégrer différentes formes d’intelligence artificielle dans un environnement ludique simple afin de démontrer la compréhension et l’application des concepts d’IA dans le cadre du développement de jeux.
