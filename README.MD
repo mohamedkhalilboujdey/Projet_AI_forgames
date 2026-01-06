@@ -1,70 +1,107 @@
-# Chrome Dino Game
+# Projet_AI_forgames
 
 ![Preview](/preview.png)
 <br>
 <br>
 
-**Chrome Dinosaur Game** in **Python** using **Pygame**! 🦖
+## 1. Introduction et objectif du projet
 
-It's the game you see in the Chrome Browser, when you're offline. 
+Le projet **Dino Game IA+** est un mini-jeu développé en Python avec la bibliothèque **Pygame**, inspiré du célèbre jeu du dinosaure de Google Chrome. L’objectif principal du projet est d’intégrer différentes formes d’intelligence artificielle dans un environnement ludique simple afin de démontrer la compréhension et l’application des concepts d’IA dans le cadre du développement de jeux.
 
-Made by [maxrohowsky](https://twitter.com/maxrohowsky)
+Ce projet vise à montrer comment l’intelligence artificielle peut influencer le gameplay, adapter la difficulté et interagir avec le joueur de manière dynamique, tout en conservant une expérience de jeu fluide et agréable.
 
-## Table of contents
+---
 
-- [Description](#description)
-- [YouTube Tutorial](#youtube-tutorial)
-- [Installation](#installation)
-- [Controls](#controls)
-- [Libraries](#libraries)
-- [FAQ](#faq)
-- [Contact](#contact)
+## 2. Description générale du jeu
 
-## YouTube Videos
+Le jeu reprend le principe classique du Dino Game :
 
-1. [Python/Pygame Chrome Dino (Part 1) - Setup & Dino Animation](https://youtu.be/wnBGG7JLrkg?feature=shared)
-2. [Python/Pygame Chrome Dino (Part 2) -JUMPING & DUCKING Motion](https://youtu.be/aAkO8Pketkg?feature=shared)
-3. [Python/Pygame Chrome Dino (Part 3) - Score & Background](https://youtu.be/KbKMqxVw8x0?feature=shared)
-4. [Python/Pygame Chrome Dino (Part 4) - Obstacles and Collisions](https://youtu.be/LYvrb-1ntIE?feature=shared)
-5. [Python/Pygame Chrome Dino (Part 5) - Menu and Final Touches](https://youtu.be/xQ5UCzFKR58?feature=shared)
+* Le dinosaure court automatiquement.
+* Des obstacles apparaissent (cactus et oiseaux).
+* Le joueur peut sauter ou s’accroupir pour éviter les obstacles.
+* Le score augmente avec la distance parcourue.
 
-## Description
+À cette base, plusieurs couches d’intelligence artificielle ont été ajoutées afin d’enrichir le gameplay.
 
-This is a simple implementation of the Chrome Dinosaur Game using Python and Pygame. The game is a simple infinite runner where the player has to jump over cacti and avoid birds. 
-The game gets progressively harder as the player's score increases. See how far you can get!
+---
 
-## Installation
-Requirements: You must have Python installed and preferably a code editor like PyCharm.
+## 3. Rôle et types d’intelligence artificielle
 
-1. Clone the repository 
-2. In the terminal, navigate to the directory where the repository was cloned, e.g., `C:\Users\Max\PycharmProjects\chrome-dinosaur`
-3. Create a virtual environment, activate it, and install pygame by running the following commands in the terminal:
-    ```bash
-    python -m venv venv #This creates a virtual environment
-    venv\Scripts\activate #This activates the virtual environment
-    pip install pygame #This installs the Pygame library
-    ```
-4. Run the game by running the following command in the terminal:
-    ```bash
-    python main.py
-    ```
+### 3.1 IA concurrente (IA décisionnelle)
 
-## Controls
-- Use the up arrow key or spacebar to jump.
-- Press any key to start the game.
-- When the game ends, press any key to restart.
+Une IA concurrente contrôle un deuxième dinosaure qui joue en parallèle avec le joueur. Cette IA observe la distance entre le dinosaure et les obstacles et décide quand sauter.
 
-## Libraries
+**Caractéristiques :**
 
-- [pygame](https://www.pygame.org/news): Pygame is a cross-platform set of Python modules designed for writing video games.
+* Prise de décision en temps réel.
+* Réaction basée sur la distance à l’obstacle et la vitesse du jeu.
+* Ajout d’une légère part d’aléatoire pour éviter un comportement parfait.
 
-## FAQ
-- How to Open GitHub Projects in PyCharm? [Explained Here](https://youtu.be/cAnWazo5pFU)
-- How to use Virtual Environments? [Explained Here](https://youtu.be/2P30W3TN4nI)
-- How to install PyCharm and Python? [Explained Here](https://youtu.be/XsL8JDkH-ec)
-- How to set PyCharm Config. and Interpreter? [Explained Here](https://youtu.be/OajNS-WHiUI)
+**Type d’IA :** IA décisionnelle basée sur des règles.
 
-## Contact
+---
 
-Feel free to reach out to me [on Twitter](https://twitter.com/maxrohowsky) if you have any questions or feedback! Hope you find this useful!
-# Projet_AI_forgames
+### 3.2 Boss IA adaptatif (Decision Tree)
+
+Le Boss IA est responsable de la génération des obstacles. Son rôle est d’adapter la difficulté du jeu en fonction du comportement du joueur.
+
+Le Boss IA utilise un **Decision Tree (arbre de décision)** entraîné sur un petit dataset représentant différents styles de joueurs.
+
+**Variables d’entrée du modèle :**
+
+* Taux de saut du joueur (jump rate)
+* Taux d’accroupissement (duck rate)
+* Score actuel
+
+**Sortie du modèle :**
+
+* Type d’obstacle à générer : petit cactus, grand cactus ou oiseau.
+
+Le modèle permet au boss de choisir dynamiquement les obstacles les plus pertinents selon le style de jeu observé.
+
+---
+
+## 4. Problème rencontré et solution apportée
+
+Lors de l’intégration du Decision Tree, un problème de gameplay est apparu : le modèle devenait trop optimal et rendait le jeu prévisible (enchaînement répétitif de sauts et d’accroupissements).
+
+Pour résoudre ce problème, une **couche de régulation gameplay** a été ajoutée entre le modèle et le jeu :
+
+* Introduction d’une probabilité d’obstacle aléatoire.
+* Mémoire courte empêchant la répétition excessive du même type d’obstacle.
+
+Cette approche permet de conserver l’intelligence adaptative du modèle tout en garantissant une expérience de jeu plus naturelle et plus amusante.
+
+---
+
+## 5. Prototype technique
+
+Le prototype est entièrement fonctionnel et comprend :
+
+* Une interface graphique jouable.
+* Un système de collision.
+* Un score dynamique.
+* Une IA concurrente visible à l’écran.
+* Un Boss IA adaptatif basé sur un modèle d’apprentissage.
+
+Le code est structuré en classes distinctes afin de séparer clairement le gameplay et la logique IA.
+
+---
+
+## 6. Plan d’évolution du projet
+
+Les évolutions possibles du projet incluent :
+
+* Enrichissement du dataset du Decision Tree avec des données réelles collectées pendant les parties.
+* Réentraînement dynamique du modèle.
+* Ajout d’une IA prédictive capable d’anticiper les mouvements futurs du joueur.
+* Amélioration de l’interface graphique et des animations.
+
+---
+
+## 7. Conclusion
+
+Le projet **Dino Game IA+** démontre comment différentes approches d’intelligence artificielle (décisionnelle et adaptative) peuvent être intégrées efficacement dans un mini-jeu. L’utilisation d’un Decision Tree permet d’adapter le gameplay au comportement du joueur, tout en respectant les contraintes de fun et de jouabilité grâce à une régulation intelligente.
+
+Ce projet répond aux objectifs pédagogiques du module *AI Programming for Games* en proposant une application concrète, fonctionnelle et évolutive de l’intelligence artificielle dans un contexte ludique.
+
